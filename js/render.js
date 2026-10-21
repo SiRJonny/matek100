@@ -22,9 +22,9 @@ function gridHTML(gen, sort, state, key) {
     const { col, row } = posOf(i, gen, sort);
     const head = escapeHTML(`${ex.a} ${sym(ex.op)} ${ex.b} =`);
     const tail = key ? escapeHTML(' ' + ex.r) : '<span class="gap"></span>';
-    const editable = (!key && state.editable !== false) ? ' contenteditable spellcheck="false"' : '';
-    html += `<div class="cell" style="grid-column:${col + 1};grid-row:${row + 1}">` +
-      `<span class="expr"${editable}>${head}${tail}</span></div>`;
+    const live = key ? '' : ' live';
+    html += `<div class="cell" data-idx="${i}" style="grid-column:${col + 1};grid-row:${row + 1}">` +
+      `<span class="expr${live}" title="${key ? '' : 'Új feladat: kattintásra azonos típusúat cserél'}">${head}${tail}</span></div>`;
   });
   return html;
 }
@@ -41,7 +41,6 @@ function pageHTML(gen, state, key) {
         ${key ? '<span class="keyTag">Megoldások</span>' : ''}
       </div>
     </header>`;
-  const extra = key ? ' data-key="1"' : '';
   return `${head}<div class="wsGrid" style="grid-template-columns:repeat(${gen.columns},1fr);grid-auto-rows:${rowH}px">` +
     gridHTML(gen, state.sort, state, key) + '</div>';
 }

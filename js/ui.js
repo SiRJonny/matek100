@@ -1,5 +1,5 @@
 // UI wiring: panel <-> state, regenerate, render, print scaling
-import { OP_DEFS, defaultState, generate } from './generator.js';
+import { OP_DEFS, defaultState, generate, genOne } from './generator.js';
 import { renderSheet } from './render.js';
 
 const s = defaultState();
@@ -35,13 +35,32 @@ opsBox.innerHTML = OP_DEFS.map(o =>
 ).join('');
 
 // ---- regenerate + render ----
+let lastGen = null;
+
 function run() {
   s.rows = Math.max(1, Math.ceil(s.count / s.columns));
   $('rows').value = s.rows;
-  const gen = generate(s);
-  renderSheet(sheet, s, gen);
+  lastGen = generate(s);
+  renderSheet(sheet, s, lastGen);
   fit();
 }
+
+// Click a worksheet exercise -> replace with a new one of the same type (unique)
+sheet.addEventListener('click', e => {
+  const cell = e.target.closest('.cell');
+  if (!cell || lastGen === null) return;
+  const page = cell.closest('.page');
+  if (!page || page.dataset.key) return;
+
+  const idx = +cell.dataset.idx;
+  const op = lastGen.list[idx]?.op;
+  if (!op) return;
+
+  const used = new Set(lastGen.list.map(ex => ex.key).filter((_, i) => i !== idx));
+  lastGen.list[idx] = genOne(op, s, used);
+  renderSheet(sheet, s, lastGen);
+  fit();
+});
 
 function fit() {
   const avail = area.clientWidth - 32;

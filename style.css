@@ -173,12 +173,8 @@ fieldset.opFs.off { opacity: .4; }
   padding: 1px 3px;
   display: inline-block;
 }
-.expr:hover:not([data-key]) { background: #eef2ff; }
-.expr:focus {
-  background: #dbe6ff;
-  box-shadow: 0 0 0 1px #7aa0ff;
-}
-.expr[data-key] { cursor: default; }
+.expr.live { cursor: pointer; }
+.expr.live:hover { background: #eef2ff; }
 
 .gap {
   display: inline-block;
@@ -210,5 +206,5 @@ fieldset.opFs.off { opacity: .4; }
   }
   .page:last-child { page-break-after: auto; }
   .cell { page-break-inside: avoid; }
-  .expr:hover { background: none; }
+  .expr.live:hover { background: none; }
 }
