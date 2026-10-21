@@ -22,10 +22,10 @@ for (const o of OP_DEFS) {
   fs.innerHTML =
     `<legend><span>${o.label}</span></legend>
      <div class="rgGrid">
-       <label>Operand. min</label><input type="number" data-rg="${o.id}" data-k="opMin" value="${rg.opMin}">
-       <label>Operand. max</label><input type="number" data-rg="${o.id}" data-k="opMax" value="${rg.opMax}">
-       <label>Eredmény min</label><input type="number" data-rg="${o.id}" data-k="resMin" value="${rg.resMin}">
-       <label>Eredmény max</label><input type="number" data-rg="${o.id}" data-k="resMax" value="${rg.resMax}">
+       <label>Operand.</label><input type="number" data-rg="${o.id}" data-k="opMin" value="${rg.opMin}">
+       <input type="number" data-rg="${o.id}" data-k="opMax" value="${rg.opMax}">
+       <label>Eredmény</label><input type="number" data-rg="${o.id}" data-k="resMin" value="${rg.resMin}">
+       <input type="number" data-rg="${o.id}" data-k="resMax" value="${rg.resMax}">
      </div>`;
   rangesBox.appendChild(fs);
   fieldsets[o.id] = fs;

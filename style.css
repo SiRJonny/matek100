@@ -91,14 +91,15 @@ fieldset.opFs legend span {
 }
 .rgGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px 8px;
-  font-size: 11px;
-  color: #9aa2b5;
+  grid-template-columns: auto 1fr 1fr;
+  gap: 4px 4px;
+  align-items: center;
 }
+.rgGrid label { white-space: nowrap; }
 .rgGrid input {
   width: 100%;
-  padding: 3px 6px;
+  min-width: 0;
+  padding: 3px 4px;
   border: 1px solid #4a5164;
   border-radius: 4px;
   background: #171a21;
