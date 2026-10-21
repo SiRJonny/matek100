@@ -68,11 +68,13 @@ function tryOne(op, B, T) {
     const b = randInt(2, 10);
     return { op, a, b, r: a * b };
   }
-  const b = T[Math.floor(Math.random() * T.length)];
-  const qMax = Math.floor(10 / b);
-  // prefer non-trivial quotients; trivial x : x = 1 only when nothing else fits
-  const q = qMax > 1 ? randInt(2, qMax) : 1;
-  return { op, a: b * q, b, r: q };
+  // div: dividend = k * m from selected tables (<= 100), divisor = one factor, both <= 10
+  if (op === 'div') {
+    const k = T[Math.floor(Math.random() * T.length)];
+    const m = randInt(2, 10);
+    const b = Math.random() < 0.5 ? k : m;
+    return { op, a: k * m, b, r: k * m / b };
+  }
 }
 
 // Full set of possible table exercises (mult: a=k, b=2..10; div: b=k, a<=10), non-trivial first
@@ -81,10 +83,14 @@ function tablePool(op, T) {
   if (op === 'mult') {
     for (const k of T) for (let b = 2; b <= 10; b++) order.push({ op, a: k, b, r: k * b });
   } else {
-    for (const k of T) {
-      const qMax = Math.floor(10 / k);
-      for (let q = 2; q <= qMax; q++) order.push({ op, a: k * q, b: k, r: q });
-      order.push({ op, a: k, b: k, r: 1 }); // trivial last
+    for (const k of T) for (let m = 2; m <= 10; m++) {
+      const a = k * m;
+      if (k !== m) {
+        order.push({ op, a, b: k, r: m });
+        order.push({ op, a, b: m, r: k });
+      } else {
+        order.push({ op, a, b: k, r: m });
+      }
     }
   }
   return order;
@@ -116,7 +122,6 @@ function buildQueues(s) {
       uniq.push({ ...ex, key: k });
     }
     shuffleArr(uniq);
-    if (op === 'div') uniq.sort((x, y) => (x.r === 1) - (y.r === 1)); // trivial last
     // repeats when the page needs more exercises than the pool holds
     queues[op] = [...uniq, ...shuffleArr([...uniq])];
   }
@@ -131,7 +136,8 @@ export function genOne(op, s, used) {
   const B = isTable ? null : bounds(s.ranges[op], s.allowNegative);
   if (isTable && !T.length) return null;
 
-  for (let t = 0; t < 1000; t++) {
+  let t = 0;
+  for (; t < 1000; t++) {
     const cand = tryOne(op, B, T);
     if (!cand) continue;
     const k = exKey(cand);
@@ -151,8 +157,9 @@ function fallback(op, B, T) {
     if (!T.length) return null;
     const k = T[Math.floor(Math.random() * T.length)];
     if (op === 'div') {
-      const q = randInt(1, Math.floor(10 / k));
-      return { op, a: k * q, b: k, r: q };
+      const m = randInt(2, 10);
+      const b = Math.random() < 0.5 ? k : m;
+      return { op, a: k * m, b, r: k * m / b };
     }
     const b = randInt(2, 10);
     return { op, a: k, b, r: k * b };
@@ -174,14 +181,15 @@ export function generate(s) {
   if (!enabled.length) return { list: [], rows, columns };
 
   const queues = buildQueues(s);
+  const used = new Set();
   const take = op => {
     const q = queues[op];
     if (q && q.length) {
       const ex = q.shift();
-      queues[op] = q;
+      used.add(ex.key);
       return ex;
     }
-    return genOne(op, s, new Set()); // safety net (plus/minus or exhausted pool)
+    return genOne(op, s, used); // safety net (plus/minus or exhausted pool)
   };
 
   const list = [];

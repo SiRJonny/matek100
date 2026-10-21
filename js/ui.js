@@ -27,7 +27,7 @@ for (const o of OP_DEFS) {
       Object.keys(t).map(n =>
         `<label class="tbl"><input type="checkbox" data-tbl="${o.id}" data-n="${n}"${t[n] ? ' checked' : ''}>${n}</label>`
       ).join('') + '</div>';
-    fs.title = 'Sz. = szorzótábla — mindkét operandus csak kijelölt szorzótáblák számait használhatja (max. 10)';
+    fs.title = 'Sz. = szorzótábla — x: egyik tényező a kijelölt szorzótábla számain közül (max. 10); : : az osztandó a kijelölt szorzótáblák szorzataiból (max. 100)';
   } else {
     const rg = s.ranges[o.id];
     fs.innerHTML =
