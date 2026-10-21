@@ -11,7 +11,7 @@ body {
 
 /* ---------- settings panel ---------- */
 #panel {
-  width: 320px;
+  width: 380px;
   flex-shrink: 0;
   overflow-y: auto;
   padding: 16px 18px 32px;

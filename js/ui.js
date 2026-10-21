@@ -22,7 +22,7 @@ for (const o of OP_DEFS) {
   fs.innerHTML =
     `<legend><span>${o.label}</span></legend>
      <div class="rgGrid">
-       <label>Operand.</label><input type="number" data-rg="${o.id}" data-k="opMin" value="${rg.opMin}">
+       <label>${o.rangeLabel}</label><input type="number" data-rg="${o.id}" data-k="opMin" value="${rg.opMin}">
        <input type="number" data-rg="${o.id}" data-k="opMax" value="${rg.opMax}">
        <label>Eredmény</label><input type="number" data-rg="${o.id}" data-k="resMin" value="${rg.resMin}">
        <input type="number" data-rg="${o.id}" data-k="resMax" value="${rg.resMax}">
