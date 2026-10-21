@@ -20,12 +20,11 @@ function gridHTML(gen, sort, state, key) {
   let html = '';
   gen.list.forEach((ex, i) => {
     const { col, row } = posOf(i, gen, sort);
-    const text = key
-      ? `${ex.a} ${sym(ex.op)} ${ex.b} = ${ex.r}`
-      : `${ex.a} ${sym(ex.op)} ${ex.b} =`;
+    const head = escapeHTML(`${ex.a} ${sym(ex.op)} ${ex.b} =`);
+    const tail = key ? escapeHTML(' ' + ex.r) : '<span class="gap"></span>';
     const editable = (!key && state.editable !== false) ? ' contenteditable spellcheck="false"' : '';
     html += `<div class="cell" style="grid-column:${col + 1};grid-row:${row + 1}">` +
-      `<span class="expr"${editable}>${escapeHTML(text)}</span></div>`;
+      `<span class="expr"${editable}>${head}${tail}</span></div>`;
   });
   return html;
 }

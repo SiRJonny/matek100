@@ -180,6 +180,15 @@ fieldset.opFs.off { opacity: .4; }
 }
 .expr[data-key] { cursor: default; }
 
+.gap {
+  display: inline-block;
+  width: 76px;
+  height: 1em;
+  margin-left: 6px;
+  border-bottom: 1px solid #999;
+  vertical-align: baseline;
+}
+
 /* ---------- print ---------- */
 @media print {
   @page { size: A4; margin: 15mm; }

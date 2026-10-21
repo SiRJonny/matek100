@@ -2,7 +2,7 @@
 export const OP_DEFS = [
   { id: 'plus',  symbol: '+', label: 'Összeadás', rangeLabel: 'Tagok' },
   { id: 'minus', symbol: '−', label: 'Kivonás',   rangeLabel: 'Tagok' },
-  { id: 'mult',  symbol: '×', label: 'Szorzás',   rangeLabel: 'Operandus' },
+  { id: 'mult',  symbol: '·', label: 'Szorzás',   rangeLabel: 'Operandus' },
   { id: 'div',   symbol: ':', label: 'Osztás',    rangeLabel: 'Operandus' },
 ];
 
