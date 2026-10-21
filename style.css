@@ -20,14 +20,14 @@ body {
 }
 
 #panel h1 {
-  font-size: 20px;
-  margin: 4px 0 14px;
+  font-size: 18px;
+  margin: 2px 0 10px;
 }
 
-.btnRow { display: flex; gap: 8px; margin-bottom: 16px; }
+.btnRow { display: flex; gap: 8px; margin-bottom: 10px; }
 .btnRow button {
   flex: 1;
-  padding: 8px 6px;
+  padding: 6px 6px;
   border: 1px solid #4a5164;
   border-radius: 6px;
   background: #2e3440;
@@ -38,12 +38,12 @@ body {
 .btnRow button:hover { background: #3a4150; }
 #regen { border-color: #5b8def; color: #9dbcff; }
 
-.field { margin: 0 0 12px; }
+.field { margin: 0 0 8px; }
 .field > label {
   display: block;
   font-size: 12px;
   color: #9aa2b5;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 .field input[type="number"],
 .field input[type="text"],
@@ -58,10 +58,10 @@ body {
   font-size: 13px;
 }
 
-.twoCol { display: flex; gap: 10px; }
-.twoCol .field { flex: 1; }
+.threeCol { display: flex; gap: 8px; }
+.threeCol .field { flex: 1; }
 
-.opList { display: flex; flex-wrap: wrap; gap: 6px; }
+.opList { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
 .opChip {
   display: flex;
   align-items: center;
@@ -78,21 +78,21 @@ body {
 fieldset.opFs {
   border: 1px solid #3a4150;
   border-radius: 6px;
-  margin: 0 0 8px;
-  padding: 4px 8px 6px;
+  margin: 0 0 6px;
+  padding: 2px 7px 5px;
 }
 fieldset.opFs legend span {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 12px;
+  font-size: 11px;
   color: #c8cdd8;
-  padding: 0 4px;
+  padding: 0 2px;
 }
 .rgGrid {
   display: grid;
   grid-template-columns: auto 1fr 1fr;
-  gap: 4px 4px;
+  gap: 3px 4px;
   align-items: center;
 }
 .rgGrid label { white-space: nowrap; }
@@ -113,7 +113,7 @@ fieldset.opFs.off { opacity: .4; }
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  margin: 0 0 8px;
+  margin: 0 0 5px;
   cursor: pointer;
 }
 

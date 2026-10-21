@@ -16,20 +16,19 @@
     <button id="printBtn">Nyomtatás / PDF</button>
   </div>
 
-  <div class="field"><label for="count">Feladatszám</label>
-    <input id="count" type="number" min="1" value="100">
-  </div>
-
-  <div class="field"><label>Műveletek</label><div id="ops" class="opList"></div></div>
-
-  <div class="twoCol">
-    <div class="field"><label for="columns">Oszlopok</label>
+  <div class="threeCol">
+    <div class="field"><label for="count">Feladat</label>
+      <input id="count" type="number" min="1" value="100">
+    </div>
+    <div class="field"><label for="columns">Oszlop</label>
       <input id="columns" type="number" min="1" max="10" value="4">
     </div>
-    <div class="field"><label for="rows">Sorok</label>
+    <div class="field"><label for="rows">Sor</label>
       <input id="rows" type="number" min="1" value="25">
     </div>
   </div>
+
+  <div id="ops" class="opList"></div>
 
   <div class="field"><label for="sort">Rendezés</label>
     <select id="sort">

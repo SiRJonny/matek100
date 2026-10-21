@@ -3,7 +3,7 @@ export const OP_DEFS = [
   { id: 'plus',  symbol: '+', label: 'Összeadás' },
   { id: 'minus', symbol: '−', label: 'Kivonás' },
   { id: 'mult',  symbol: '×', label: 'Szorzás' },
-  { id: 'div',   symbol: '÷', label: 'Osztás' },
+  { id: 'div',   symbol: ':', label: 'Osztás' },
 ];
 
 function todayISO() {
@@ -21,8 +21,8 @@ export function defaultState() {
     ranges: {
       plus:  { opMin: 1, opMax: 1000, resMin: 1, resMax: 1000 },
       minus: { opMin: 1, opMax: 1000, resMin: 1, resMax: 1000 },
-      mult:  { opMin: 1, opMax: 10,   resMin: 1, resMax: 100 },
-      div:   { opMin: 1, opMax: 10,   resMin: 1, resMax: 10 },
+      mult:  { opMin: 2, opMax: 10,   resMin: 1, resMax: 100 },
+      div:   { opMin: 2, opMax: 10,   resMin: 1, resMax: 10 },
     },
     allowNegative: false,
     answerKey: true,
