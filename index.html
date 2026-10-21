@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matek 100</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<aside id="panel">
+  <h1>Matek 100</h1>
+
+  <div class="btnRow">
+    <button id="regen">Újragenerálás</button>
+    <button id="printBtn">Nyomtatás / PDF</button>
+  </div>
+
+  <div class="field"><label for="count">Feladatszám</label>
+    <input id="count" type="number" min="1" value="100">
+  </div>
+
+  <div class="field"><label>Műveletek</label><div id="ops" class="opList"></div></div>
+
+  <div class="twoCol">
+    <div class="field"><label for="columns">Oszlopok</label>
+      <input id="columns" type="number" min="1" max="10" value="4">
+    </div>
+    <div class="field"><label for="rows">Sorok</label>
+      <input id="rows" type="number" min="1" value="25">
+    </div>
+  </div>
+
+  <div class="field"><label for="sort">Rendezés</label>
+    <select id="sort">
+      <option value="random" selected>Véletlen</option>
+      <option value="column">Oszloponként azonos</option>
+    </select>
+  </div>
+
+  <div class="field"><label>Számhatárok</label><div id="ranges"></div></div>
+
+  <label class="chk"><input id="allowNeg" type="checkbox"> Negatív eredmény engedélyezése</label>
+  <label class="chk"><input id="answerKey" type="checkbox" checked> Megoldás kulcs</label>
+  <label class="chk"><input id="nameLine" type="checkbox" checked> Név sor</label>
+
+  <div class="field"><label for="title">Vezércím</label>
+    <input id="title" type="text" value="Matek 100">
+  </div>
+  <div class="field"><label for="date">Dátum</label>
+    <input id="date" type="date">
+  </div>
+</aside>
+
+<main id="sheetArea">
+  <div id="sheetWrap"><div id="sheet"></div></div>
+</main>
+
+<script type="module" src="js/ui.js"></script>
+</body>
+</html>
