@@ -16,17 +16,29 @@ const rangesBox = $('ranges');
 const fieldsets = {};
 
 for (const o of OP_DEFS) {
-  const rg = s.ranges[o.id];
   const fs = document.createElement('fieldset');
   fs.className = 'opFs';
-  fs.innerHTML =
-    `<legend><span>${o.label}</span></legend>
-     <div class="rgGrid">
-       <label>${o.rangeLabel}</label><input type="number" data-rg="${o.id}" data-k="opMin" value="${rg.opMin}">
-       <input type="number" data-rg="${o.id}" data-k="opMax" value="${rg.opMax}">
-       <label>Eredmény</label><input type="number" data-rg="${o.id}" data-k="resMin" value="${rg.resMin}">
-       <input type="number" data-rg="${o.id}" data-k="resMax" value="${rg.resMax}">
-     </div>`;
+  if (s.tables[o.id]) {
+    // mult/div: row of table checkboxes 2..10
+    const t = s.tables[o.id];
+    fs.innerHTML =
+      `<legend><span>${o.label} sz.">*</span></legend>
+       <div class="tblRow">` +
+      Object.keys(t).map(n =>
+        `<label class="tbl"><input type="checkbox" data-tbl="${o.id}" data-n="${n}"${t[n] ? ' checked' : ''}>${n}</label>`
+      ).join('') + '</div>';
+    fs.title = 'Sz. = szorzótábla — mindkét operandus csak kijelölt szorzótáblák számait használhatja (max. 10)';
+  } else {
+    const rg = s.ranges[o.id];
+    fs.innerHTML =
+      `<legend><span>${o.label}</span></legend>
+       <div class="rgGrid">
+         <label>Tagok</label><input type="number" data-rg="${o.id}" data-k="opMin" value="${rg.opMin}">
+         <input type="number" data-rg="${o.id}" data-k="opMax" value="${rg.opMax}">
+         <label>Eredmény</label><input type="number" data-rg="${o.id}" data-k="resMin" value="${rg.resMin}">
+         <input type="number" data-rg="${o.id}" data-k="resMax" value="${rg.resMax}">
+       </div>`;
+  }
   rangesBox.appendChild(fs);
   fieldsets[o.id] = fs;
 }
@@ -57,7 +69,9 @@ sheet.addEventListener('click', e => {
   if (!op) return;
 
   const used = new Set(lastGen.list.map(ex => ex.key).filter((_, i) => i !== idx));
-  lastGen.list[idx] = genOne(op, s, used);
+  const next = genOne(op, s, used);
+  if (!next) return;
+  lastGen.list[idx] = next;
   renderSheet(sheet, s, lastGen);
   fit();
 });
@@ -98,6 +112,12 @@ for (const el of opsBox.querySelectorAll('[data-opchk]')) {
 for (const el of rangesBox.querySelectorAll('input[data-rg]')) {
   el.addEventListener('input', () => {
     s.ranges[el.dataset.rg][el.dataset.k] = Math.round(+el.value || 0);
+    run();
+  });
+}
+for (const el of rangesBox.querySelectorAll('input[data-tbl]')) {
+  el.addEventListener('change', () => {
+    s.tables[el.dataset.tbl][+el.dataset.n] = el.checked;
     run();
   });
 }

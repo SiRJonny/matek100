@@ -106,6 +106,20 @@ fieldset.opFs legend span {
   color: #e7e9ee;
   font-size: 12px;
 }
+.tblRow { display: flex; flex-wrap: wrap; gap: 4px; }
+.tbl {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  color: #c8cdd8;
+  padding: 2px 5px;
+  border: 1px solid #4a5164;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+}
+.tbl:has(input:not(:checked)) { opacity: .4; }
 fieldset.opFs.off { opacity: .4; }
 
 .chk {
