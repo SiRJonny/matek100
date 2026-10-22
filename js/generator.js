@@ -37,12 +37,14 @@ export function defaultState() {
 
 const randInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-function bounds(rg, allowNegative) {
+function bounds(op, rg, allowNegative) {
   const omin = Math.min(rg.opMin, rg.opMax);
   const omax = Math.max(rg.opMin, rg.opMax);
   let rmin = Math.min(rg.resMin, rg.resMax);
   const rmax = Math.max(rg.resMin, rg.resMax);
   if (!allowNegative && rmin < 0) rmin = 0;
+  // negative allowed: subtraction may reach the lowest achievable result (omin - omax)
+  if (op === 'minus' && allowNegative && rmin >= 0) rmin = omin - omax;
   return { omin, omax, rmin, rmax };
 }
 
@@ -134,7 +136,7 @@ function buildQueues(s) {
 export function genOne(op, s, used) {
   const isTable = op === 'mult' || op === 'div';
   const T = isTable ? tableSel(s)(op) : null;
-  const B = isTable ? null : bounds(s.ranges[op], s.allowNegative);
+  const B = isTable ? null : bounds(op, s.ranges[op], s.allowNegative);
   if (isTable && !T.length) return null;
 
   let t = 0;
