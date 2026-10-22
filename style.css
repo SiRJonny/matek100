@@ -202,13 +202,14 @@ fieldset.opFs.off { opacity: .4; }
 .pgMeta {
   display: flex;
   align-items: baseline;
+  justify-content: flex-end;
   gap: 18px;
   font-size: 13px;
   color: #333;
 }
 .nameGap {
   display: inline-block;
-  width: 260px;
+  width: 120px;
   border-bottom: 1px dotted #777;
   height: 13px;
 }

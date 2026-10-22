@@ -43,8 +43,8 @@ function pageHTML(gen, state, key) {
   const head =
     `<header class="pgHead">
       <h2 class="pgTitle"${key ? '' : ' contenteditable spellcheck="false" title="Kattintás: cím szerkesztése"'}>${escapeHTML(state.title)}</h2>
-      <div class="pgMeta">
-        ${state.nameLine && !key ? '<span class="nameSlot">Név: <span class="nameGap"></span></span>' : ''}
+      <div class="pgMeta pgMetaTop">
+        ${!key && state.nameLine ? '<span class="nameSlot">Név: <span class="nameGap"></span></span>' : ''}
         <span class="pgDate">Dátum: ${escapeHTML(fmtDate(state.date))}</span>
         ${key ? '<span class="keyTag">Megoldások</span>' : ''}
       </div>
