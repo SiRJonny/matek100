@@ -130,10 +130,24 @@ $('nameLine').addEventListener('change', e => { s.nameLine = e.target.checked; r
 $('title').addEventListener('input', e => { s.title = e.target.value; run(); });
 $('date').addEventListener('change', e => { s.date = e.target.value; run(); });
 
+// font size (no rerender needed; CSS variable)
+function applyFont() {
+  $('fsVal').textContent = s.fontSize;
+  sheet.style.setProperty('--fs', s.fontSize + 'px');
+}
+function stepFont(d) {
+  s.fontSize = Math.max(8, Math.min(26, s.fontSize + d));
+  applyFont();
+  run(); // row heights depend on font size
+}
+$('fsMinus').addEventListener('click', () => stepFont(-1));
+$('fsPlus').addEventListener('click', () => stepFont(1));
+
 // ---- buttons ----
 $('regen').addEventListener('click', run);
 $('printBtn').addEventListener('click', () => window.print());
 
 // ---- init ----
 $('date').value = s.date;
+applyFont();
 run();

@@ -20,18 +20,22 @@ function gridHTML(gen, sort, state, key) {
   let html = '';
   gen.list.forEach((ex, i) => {
     const { col, row } = posOf(i, gen, sort);
-    const head = escapeHTML(`${ex.a} ${sym(ex.op)} ${ex.b} =`);
-    const tail = key ? escapeHTML(' ' + ex.r) : '<span class="gap"></span>';
+    const lhs = escapeHTML(`${ex.a} ${sym(ex.op)} ${ex.b}`);
+    // fixed-width equals + answer block -> '=' aligns across a column
+    const tail = key
+      ? `<span class="eq">=</span><span class="res">${ex.r}</span>`
+      : `<span class="eq">=</span><span class="gap"></span>`;
     const live = key ? '' : ' live';
     html += `<div class="cell" data-idx="${i}" style="grid-column:${col + 1};grid-row:${row + 1}">` +
-      `<span class="expr${live}" title="${key ? '' : 'Új feladat: kattintásra azonos típusúat cserél'}">${head}${tail}</span></div>`;
+      `<span class="expr${live}" title="${key ? '' : 'Kattintás: új feladat, azonos típus'}">` +
+      `<span class="lhs">${lhs}</span>${tail}</span></div>`;
   });
   return html;
 }
 
 function pageHTML(gen, state, key) {
   const avail = PAGE_H - 2 * PAGE_PAD - HEAD_H;
-  const rowH = Math.max(20, Math.min(40, Math.floor(avail / gen.rows)));
+  const rowH = Math.max(state.fontSize + 8, Math.min(56, Math.floor(avail / gen.rows)));
   const head =
     `<header class="pgHead">
       <h2 class="pgTitle">${escapeHTML(state.title)}</h2>

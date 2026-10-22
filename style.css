@@ -131,6 +131,30 @@ fieldset.opFs.off { opacity: .4; }
   cursor: pointer;
 }
 
+.fsRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.fsRow button {
+  width: 32px;
+  height: 28px;
+  font-size: 16px;
+  border: 1px solid #4a5164;
+  border-radius: 5px;
+  background: #2e3440;
+  color: #e7e9ee;
+  cursor: pointer;
+}
+.fsRow button:hover { background: #3a4150; }
+.fsRow span {
+  min-width: 28px;
+  text-align: center;
+  font-size: 14px;
+  color: #c8cdd8;
+  font-variant-numeric: tabular-nums;
+}
+
 /* ---------- sheet area ---------- */
 #sheetArea {
   flex: 1;
@@ -180,23 +204,28 @@ fieldset.opFs.off { opacity: .4; }
   overflow: hidden;
 }
 .expr {
-  font-size: 14px;
+  --fs: 14px;
+  font-size: var(--fs);
+  display: flex;
+  align-items: baseline;
+  width: 100%;
   white-space: pre;
   outline: none;
   border-radius: 3px;
-  padding: 1px 3px;
-  display: inline-block;
 }
 .expr.live { cursor: pointer; }
 .expr.live:hover { background: #eef2ff; }
 
+.lhs { flex: 1; text-align: right; }
+.eq { width: 16px; text-align: center; flex-shrink: 0; }
+.res { width: 84px; flex-shrink: 0; }
 .gap {
-  display: inline-block;
-  width: 76px;
+  display: block;
+  width: 84px;
+  flex-shrink: 0;
   height: 1em;
-  margin-left: 6px;
+  margin-left: 0;
   border-bottom: 1px solid #999;
-  vertical-align: baseline;
 }
 
 /* ---------- print ---------- */
