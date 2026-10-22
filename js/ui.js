@@ -152,17 +152,20 @@ $('allowNeg').addEventListener('change', e => { s.allowNegative = e.target.check
 $('answerKey').addEventListener('change', e => { s.answerKey = e.target.checked; run(); });
 
 // display-only inputs
-$('title').addEventListener('input', e => { s.title = e.target.value; run(); });
 $('date').addEventListener('change', e => { s.date = e.target.value; run(); });
 
-// title editable directly on the worksheet page
+// title editable directly on the worksheet page; Enter ends editing (no newline); paste stays plain text
+sheet.addEventListener('keydown', e => {
+  const t = e.target.closest?.('.pgTitle');
+  if (!t) return;
+  if (e.key === 'Enter') { e.preventDefault(); t.blur(); }
+});
 sheet.addEventListener('focusout', e => {
   const t = e.target.closest?.('.pgTitle');
   if (!t || t.closest('.page')?.dataset.key) return;
-  const val = t.textContent.trim();
+  const val = t.textContent.replace(/\s+/g, ' ').trim();
   if (val === s.title) return;
   s.title = val;
-  $('title').value = val;
   run();
 });
 
@@ -196,7 +199,6 @@ $('columns').value = s.columns;
 $('sort').value = s.sort;
 $('allowNeg').checked = s.allowNegative;
 $('answerKey').checked = s.answerKey;
-$('title').value = s.title;
 $('date').value = s.date;
 for (const el of opsBox.querySelectorAll('[data-opchk]')) {
   fieldsets[el.dataset.opchk].classList.toggle('off', !el.checked);
