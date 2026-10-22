@@ -38,7 +38,7 @@ function pageHTML(gen, state, key) {
   const rowH = Math.max(state.fontSize + 8, Math.min(56, Math.floor(avail / gen.rows)));
   const head =
     `<header class="pgHead">
-      <h2 class="pgTitle">${escapeHTML(state.title)}</h2>
+      <h2 class="pgTitle"${key ? '' : ' contenteditable spellcheck="false" title="Kattintás: cím szerkesztése"'}>${escapeHTML(state.title)}</h2>
       <div class="pgMeta">
         ${state.nameLine && !key ? '<span class="nameSlot">Név: <span class="nameGap"></span></span>' : ''}
         <span class="pgDate">Dátum: ${escapeHTML(fmtDate(state.date))}</span>

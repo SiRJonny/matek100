@@ -19,8 +19,8 @@ export function defaultState() {
     rows: 25,
     sort: 'random', // 'random' | 'column'
     ranges: {
-      plus:  { opMin: 1, opMax: 100, resMin: 1, resMax: 100 },
-      minus: { opMin: 1, opMax: 100, resMin: 1, resMax: 100 },
+      plus:  { opMin: 2, opMax: 100, resMin: 1, resMax: 100 },
+      minus: { opMin: 2, opMax: 100, resMin: 1, resMax: 100 },
     },
     tables: {
       mult: { 2: true, 3: true, 4: true, 5: true, 6: true, 7: true, 8: true, 9: true, 10: true },

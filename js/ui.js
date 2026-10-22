@@ -2,7 +2,32 @@
 import { OP_DEFS, defaultState, generate, genOne } from './generator.js';
 import { renderSheet } from './render.js';
 
-const s = defaultState();
+const LS_KEY = 'matek100-settings';
+
+function loadState() {
+  const d = defaultState();
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) {
+      const p = JSON.parse(raw);
+      const out = { ...d, ...p };
+      out.ops = { ...d.ops, ...(p.ops || {}) };
+      out.ranges = {};
+      for (const k of Object.keys(d.ranges)) out.ranges[k] = { ...d.ranges[k], ...((p.ranges && p.ranges[k]) || {}) };
+      out.tables = {};
+      for (const k of Object.keys(d.tables)) out.tables[k] = { ...d.tables[k], ...((p.tables && p.tables[k]) || {}) };
+      out.nameLine = true; // deprecated setting, always on now
+      return out;
+    }
+  } catch { /* corrupt or unavailable storage -> defaults */ }
+  return d;
+}
+
+const s = loadState();
+
+function save() {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(s)); } catch { /* private mode etc. */ }
+}
 
 const $ = id => document.getElementById(id);
 const panel = $('panel');
@@ -43,7 +68,7 @@ for (const o of OP_DEFS) {
   fieldsets[o.id] = fs;
 }
 opsBox.innerHTML = OP_DEFS.map(o =>
-  `<label class="opChip"><input type="checkbox" data-opchk="${o.id}" checked> ${o.symbol} ${o.label}</label>`
+  `<label class="opChip"><input type="checkbox" data-opchk="${o.id}"${s.ops[o.id] ? ' checked' : ''}> ${o.symbol} ${o.label}</label>`
 ).join('');
 
 // ---- regenerate + render ----
@@ -55,6 +80,7 @@ function run() {
   lastGen = generate(s);
   renderSheet(sheet, s, lastGen);
   fit();
+  save();
 }
 
 // Click a worksheet exercise -> replace with a new one of the same type (unique)
@@ -124,11 +150,21 @@ for (const el of rangesBox.querySelectorAll('input[data-tbl]')) {
 
 $('allowNeg').addEventListener('change', e => { s.allowNegative = e.target.checked; run(); });
 $('answerKey').addEventListener('change', e => { s.answerKey = e.target.checked; run(); });
-$('nameLine').addEventListener('change', e => { s.nameLine = e.target.checked; run(); });
 
 // display-only inputs
 $('title').addEventListener('input', e => { s.title = e.target.value; run(); });
 $('date').addEventListener('change', e => { s.date = e.target.value; run(); });
+
+// title editable directly on the worksheet page
+sheet.addEventListener('focusout', e => {
+  const t = e.target.closest?.('.pgTitle');
+  if (!t || t.closest('.page')?.dataset.key) return;
+  const val = t.textContent.trim();
+  if (val === s.title) return;
+  s.title = val;
+  $('title').value = val;
+  run();
+});
 
 // font size (no rerender needed; CSS variable)
 function applyFont() {
@@ -148,6 +184,16 @@ $('regen').addEventListener('click', run);
 $('printBtn').addEventListener('click', () => window.print());
 
 // ---- init ----
+// restore panel from loaded state
+$('count').value = s.count;
+$('columns').value = s.columns;
+$('sort').value = s.sort;
+$('allowNeg').checked = s.allowNegative;
+$('answerKey').checked = s.answerKey;
+$('title').value = s.title;
 $('date').value = s.date;
+for (const el of opsBox.querySelectorAll('[data-opchk]')) {
+  fieldsets[el.dataset.opchk].classList.toggle('off', !el.checked);
+}
 applyFont();
 run();
