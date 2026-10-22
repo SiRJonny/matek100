@@ -216,6 +216,7 @@ fieldset.opFs.off { opacity: .4; }
 .wsGrid {
   flex: 1;
   display: grid;
+  grid-auto-rows: min(56px, max(calc(var(--rowBase, 40) * 1px), calc(var(--fs, 17px) + 8px)));
 }
 
 .cell {
@@ -225,7 +226,7 @@ fieldset.opFs.off { opacity: .4; }
 }
 .expr {
   font-size: var(--fs, 17px);
-  font-weight: 700;
+  font-weight: 600;
   display: flex;
   align-items: baseline;
   width: 100%;
@@ -245,13 +246,13 @@ fieldset.opFs.off { opacity: .4; }
 }
 .lhs .os { width: 16px; flex-shrink: 0; text-align: center; }
 .eq { width: 16px; text-align: center; flex-shrink: 0; }
-.res { width: 67px; flex-shrink: 0; }
+.res { width: 60px; flex-shrink: 0; }
 .gap {
   display: block;
-  width: 67px;
+  width: 60px;
   flex-shrink: 0;
   height: 1em;
-  margin-left: 0;
+  transform: translateY(3px);
   border-bottom: 1px solid #999;
 }
 

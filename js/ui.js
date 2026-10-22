@@ -166,7 +166,10 @@ sheet.addEventListener('focusout', e => {
   const val = t.textContent.replace(/\s+/g, ' ').trim();
   if (val === s.title) return;
   s.title = val;
-  run();
+  t.textContent = val; // normalize in place
+  const keyTitle = sheet.querySelector('.page[data-key] .pgTitle');
+  if (keyTitle) keyTitle.textContent = val; // answer key title stays in sync, no regeneration
+  save();
 });
 
 // font size (no rerender needed; CSS variable)
@@ -177,7 +180,7 @@ function applyFont() {
 function stepFont(d) {
   s.fontSize = Math.max(8, Math.min(26, s.fontSize + d));
   applyFont();
-  run(); // row heights depend on font size
+  save();
 }
 $('fsMinus').addEventListener('click', () => stepFont(-1));
 $('fsPlus').addEventListener('click', () => stepFont(1));

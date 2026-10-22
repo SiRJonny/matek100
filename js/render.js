@@ -38,7 +38,8 @@ function gridHTML(gen, sort, state, key) {
 
 function pageHTML(gen, state, key) {
   const avail = PAGE_H - 2 * PAGE_PAD - HEAD_H;
-  const rowH = Math.max(state.fontSize + 8, Math.min(56, Math.floor(avail / gen.rows)));
+  // font-size independent: CSS takes max(--rowBase, font height) at runtime
+  const rowBase = Math.min(56, Math.floor(avail / gen.rows));
   const head =
     `<header class="pgHead">
       <h2 class="pgTitle"${key ? '' : ' contenteditable spellcheck="false" title="Kattintás: cím szerkesztése"'}>${escapeHTML(state.title)}</h2>
@@ -48,7 +49,7 @@ function pageHTML(gen, state, key) {
         ${key ? '<span class="keyTag">Megoldások</span>' : ''}
       </div>
     </header>`;
-  return `${head}<div class="wsGrid" style="grid-template-columns:repeat(${gen.columns},1fr);grid-auto-rows:${rowH}px">` +
+  return `${head}<div class="wsGrid" style="grid-template-columns:repeat(${gen.columns},1fr);--rowBase:${rowBase}">` +
     gridHTML(gen, state.sort, state, key) + '</div>';
 }
 
@@ -62,6 +63,6 @@ function fmtDate(iso) {
 export function renderSheet(root, state, gen) {
   root.innerHTML = '';
   let html = `<div class="page">${pageHTML(gen, state, false)}</div>`;
-  if (state.answerKey) html += `<div class="page">${pageHTML(gen, state, true)}</div>`;
+  if (state.answerKey) html += `<div class="page" data-key="1">${pageHTML(gen, state, true)}</div>`;
   root.innerHTML = html;
 }
