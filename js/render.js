@@ -20,7 +20,10 @@ function gridHTML(gen, sort, state, key) {
   let html = '';
   gen.list.forEach((ex, i) => {
     const { col, row } = posOf(i, gen, sort);
-    const lhs = escapeHTML(`${ex.a} ${sym(ex.op)} ${ex.b}`);
+    // column-aligned layout: centered operand slots, fixed-width sign, fixed-width equals+answer
+    const lhs = `<span class="oA">${escapeHTML(String(ex.a))}</span>` +
+      `<span class="os">${sym(ex.op)}</span>` +
+      `<span class="oB">${escapeHTML(String(ex.b))}</span>`;
     // fixed-width equals + answer block -> '=' aligns across a column
     const tail = key
       ? `<span class="eq">=</span><span class="res">${ex.r}</span>`

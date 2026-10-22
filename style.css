@@ -224,7 +224,8 @@ fieldset.opFs.off { opacity: .4; }
   overflow: hidden;
 }
 .expr {
-  font-size: var(--fs, 14px);
+  font-size: var(--fs, 17px);
+  font-weight: 700;
   display: flex;
   align-items: baseline;
   width: 100%;
@@ -235,7 +236,14 @@ fieldset.opFs.off { opacity: .4; }
 .expr.live { cursor: pointer; }
 .expr.live:hover { background: #eef2ff; }
 
-.lhs { flex: 1; text-align: right; }
+.lhs { flex: 1; display: flex; align-items: baseline; min-width: 0; }
+.lhs .oA, .lhs .oB {
+  flex: 1;
+  text-align: center;
+  white-space: pre;
+  overflow: hidden;
+}
+.lhs .os { width: 16px; flex-shrink: 0; text-align: center; }
 .eq { width: 16px; text-align: center; flex-shrink: 0; }
 .res { width: 67px; flex-shrink: 0; }
 .gap {
