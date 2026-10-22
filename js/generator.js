@@ -31,7 +31,7 @@ export function defaultState() {
     nameLine: true,
     title: 'Matek 100',
     date: todayISO(),
-    fontSize: 17,
+    fontSize: 18,
   };
 }
 
