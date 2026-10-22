@@ -204,8 +204,7 @@ fieldset.opFs.off { opacity: .4; }
   overflow: hidden;
 }
 .expr {
-  --fs: 14px;
-  font-size: var(--fs);
+  font-size: var(--fs, 14px);
   display: flex;
   align-items: baseline;
   width: 100%;
