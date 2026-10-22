@@ -242,7 +242,7 @@ fieldset.opFs.off { opacity: .4; }
 /* fixed-width operand slots (em scales with font size), centered pair:
    sign/equals keep a constant x per column, operands centered */
 .lhs .oA, .lhs .oB {
-  flex: 0 0 2.1em;
+  flex: 0 0 1.9em;
   text-align: center;
   white-space: pre;
   overflow: hidden;
