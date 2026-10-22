@@ -238,12 +238,15 @@ fieldset.opFs.off { opacity: .4; }
 .expr.live { cursor: pointer; }
 .expr.live:hover { background: #eef2ff; }
 
-.lhs { flex: 1; display: flex; align-items: baseline; min-width: 0; }
-/* a right-aligned to the operator; b centered in a narrower slot -> tight on both sides */
-/* equal slot widths for both operands, both centered,
-   sign exactly centered between them */
-.lhs .oA { flex: 1; text-align: center; white-space: pre; overflow: hidden; }
-.lhs .oB { flex: 1; text-align: center; white-space: pre; overflow: hidden; }
+.lhs { flex: 1; display: flex; align-items: baseline; justify-content: center; min-width: 0; }
+/* fixed-width operand slots (em scales with font size), centered pair:
+   sign/equals keep a constant x per column, operands centered */
+.lhs .oA, .lhs .oB {
+  flex: 0 0 2.1em;
+  text-align: center;
+  white-space: pre;
+  overflow: hidden;
+}
 .lhs .os { width: 14px; flex-shrink: 0; text-align: center; }
 .eq { width: 16px; text-align: center; flex-shrink: 0; }
 .res { width: 50px; flex-shrink: 0; }
