@@ -246,10 +246,10 @@ fieldset.opFs.off { opacity: .4; }
 }
 .lhs .os { width: 16px; flex-shrink: 0; text-align: center; }
 .eq { width: 16px; text-align: center; flex-shrink: 0; }
-.res { width: 60px; flex-shrink: 0; }
+.res { width: 50px; flex-shrink: 0; }
 .gap {
   display: block;
-  width: 60px;
+  width: 50px;
   flex-shrink: 0;
   height: 1em;
   transform: translateY(3px);
