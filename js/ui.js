@@ -179,6 +179,12 @@ function stepFont(d) {
 $('fsMinus').addEventListener('click', () => stepFont(-1));
 $('fsPlus').addEventListener('click', () => stepFont(1));
 
+// reset: clear saved settings, reload with defaults
+$('resetBtn').addEventListener('click', () => {
+  try { localStorage.removeItem(LS_KEY); } catch { /* ignore */ }
+  location.reload();
+});
+
 // ---- buttons ----
 $('regen').addEventListener('click', run);
 $('printBtn').addEventListener('click', () => window.print());
