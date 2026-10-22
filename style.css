@@ -209,7 +209,7 @@ fieldset.opFs.off { opacity: .4; }
 }
 .nameGap {
   display: inline-block;
-  width: 120px;
+  width: 200px;
   border-bottom: 1px dotted #777;
   height: 13px;
 }
