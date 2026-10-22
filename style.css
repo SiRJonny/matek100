@@ -191,6 +191,13 @@ fieldset.opFs.off { opacity: .4; }
 }
 
 .pgHead { height: 64px; flex-shrink: 0; }
+.pgHeadRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  height: auto;
+  gap: 12px;
+}
 .pgTitle { font-size: 20px; margin: 0 0 6px; }
 .pgTitle[contenteditable] {
   cursor: text;

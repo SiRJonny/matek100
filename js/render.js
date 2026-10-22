@@ -41,7 +41,7 @@ function pageHTML(gen, state, key) {
   // font-size independent: CSS takes max(--rowBase, font height) at runtime
   const rowBase = Math.min(56, Math.floor(avail / gen.rows));
   const head =
-    `<header class="pgHead">
+    `<header class="pgHead pgHeadRow">
       <h2 class="pgTitle"${key ? '' : ' contenteditable spellcheck="false" title="Kattintás: cím szerkesztése"'}>${escapeHTML(state.title)}</h2>
       <div class="pgMeta pgMetaTop">
         ${!key && state.nameLine ? '<span class="nameSlot">Név: <span class="nameGap"></span></span>' : ''}
