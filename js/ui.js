@@ -177,8 +177,11 @@ for (const el of rangesBox.querySelectorAll('input[data-tbl]')) {
 $('allowNeg').addEventListener('change', e => { s.allowNegative = e.target.checked; run(); });
 $('allowCross').addEventListener('change', e => { s.allowCarry = e.target.checked; run(); });
 
-// display-only inputs
-$('date').addEventListener('change', e => { s.date = e.target.value; run(); });
+// display-only inputs — date must not regenerate exercises
+$('date').addEventListener('change', e => {
+  s.date = e.target.value;
+  if (lastGen) { renderSheet(sheet, s, lastGen); fit(); }
+});
 
 // title editable directly on the worksheet page; Enter ends editing (no newline); paste stays plain text
 sheet.addEventListener('keydown', e => {
