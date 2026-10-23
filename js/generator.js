@@ -32,6 +32,7 @@ export function defaultState() {
     title: 'Matek 100',
     date: todayISO(),
     fontSize: 18,
+    allowCarry: true, // tízesátlépés: crossing multiples of ten disabled when false
   };
 }
 
@@ -56,13 +57,18 @@ export function exKey(ex) {
   return `${ex.op}:${pair}`;
 }
 
-function tryOne(op, B, T) {
+const crossed = (x, y) => Math.floor(x / 10) !== Math.floor(y / 10); // any +-10 boundary crossed
+
+function tryOne(op, B, T, allowCarry) {
   if (op === 'plus' || op === 'minus') {
     const { omin, omax, rmin, rmax } = B;
     const a = randInt(Math.max(omin, 1), Math.max(omax, 1));
     const b = randInt(Math.max(omin, 1), Math.max(omax, 1));
     const r = op === 'plus' ? a + b : a - b;
-    return r >= rmin && r <= rmax ? { op, a, b, r } : null;
+    if (r < rmin || r > rmax) return null;
+    // crossing a multiple of ten (carry/borrow)
+    if (!allowCarry && crossed(r, a)) return null;
+    return { op, a, b, r };
   }
   // mult/div: classic table practice — one operand is a selected table number, the other 2..10.
   // mult: a is the table number. div: b is the table number (divisor), a = b * q <= 10.
@@ -141,7 +147,7 @@ export function genOne(op, s, used) {
 
   let t = 0;
   for (; t < 1000; t++) {
-    const cand = tryOne(op, B, T);
+    const cand = tryOne(op, B, T, s.allowCarry);
     if (!cand) continue;
     const k = exKey(cand);
     if (used && used.has(k)) continue;

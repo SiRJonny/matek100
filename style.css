@@ -155,19 +155,6 @@ fieldset.opFs.off { opacity: .4; }
   font-variant-numeric: tabular-nums;
 }
 
-.resetBtn {
-  width: 100%;
-  margin-top: 12px;
-  padding: 7px;
-  font-size: 13px;
-  border: 1px solid #7a5b6e;
-  border-radius: 6px;
-  background: #2e3440;
-  color: #ffb3c8;
-  cursor: pointer;
-}
-.resetBtn:hover { background: #3a2e36; }
-
 /* ---------- sheet area ---------- */
 #sheetArea {
   flex: 1;
@@ -257,7 +244,13 @@ fieldset.opFs.off { opacity: .4; }
 }
 .lhs .os { width: 14px; flex-shrink: 0; text-align: center; }
 .eq { width: 16px; text-align: center; flex-shrink: 0; }
-.res { width: 50px; flex-shrink: 0; padding-left: 5px; font-weight: 400; }
+.res {
+  width: 50px;
+  flex-shrink: 0;
+  padding-left: 5px;
+  font-weight: 400;
+  border-bottom: 1px solid #999;
+}
 .gap {
   display: block;
   width: 50px;

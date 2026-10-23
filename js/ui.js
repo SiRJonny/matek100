@@ -2,32 +2,7 @@
 import { OP_DEFS, defaultState, generate, genOne } from './generator.js';
 import { renderSheet } from './render.js';
 
-const LS_KEY = 'matek100-settings';
-
-function loadState() {
-  const d = defaultState();
-  try {
-    const raw = localStorage.getItem(LS_KEY);
-    if (raw) {
-      const p = JSON.parse(raw);
-      const out = { ...d, ...p };
-      out.ops = { ...d.ops, ...(p.ops || {}) };
-      out.ranges = {};
-      for (const k of Object.keys(d.ranges)) out.ranges[k] = { ...d.ranges[k], ...((p.ranges && p.ranges[k]) || {}) };
-      out.tables = {};
-      for (const k of Object.keys(d.tables)) out.tables[k] = { ...d.tables[k], ...((p.tables && p.tables[k]) || {}) };
-      out.nameLine = true; // deprecated setting, always on now
-      return out;
-    }
-  } catch { /* corrupt or unavailable storage -> defaults */ }
-  return d;
-}
-
-const s = loadState();
-
-function save() {
-  try { localStorage.setItem(LS_KEY, JSON.stringify(s)); } catch { /* private mode etc. */ }
-}
+const s = defaultState();
 
 const $ = id => document.getElementById(id);
 const panel = $('panel');
@@ -80,7 +55,6 @@ function run() {
   lastGen = generate(s);
   renderSheet(sheet, s, lastGen);
   fit();
-  save();
 }
 
 // Click a worksheet exercise -> replace with a new one of the same type (unique)
@@ -135,6 +109,7 @@ for (const el of opsBox.querySelectorAll('[data-opchk]')) {
     run();
   });
 }
+
 for (const el of rangesBox.querySelectorAll('input[data-rg]')) {
   el.addEventListener('input', () => {
     s.ranges[el.dataset.rg][el.dataset.k] = Math.round(+el.value || 0);
@@ -149,6 +124,7 @@ for (const el of rangesBox.querySelectorAll('input[data-tbl]')) {
 }
 
 $('allowNeg').addEventListener('change', e => { s.allowNegative = e.target.checked; run(); });
+$('allowCross').addEventListener('change', e => { s.allowCarry = e.target.checked; run(); });
 $('answerKey').addEventListener('change', e => { s.answerKey = e.target.checked; run(); });
 
 // display-only inputs
@@ -169,7 +145,6 @@ sheet.addEventListener('focusout', e => {
   t.textContent = val; // normalize in place
   const keyTitle = sheet.querySelector('.page[data-key] .pgTitle');
   if (keyTitle) keyTitle.textContent = val; // answer key title stays in sync, no regeneration
-  save();
 });
 
 // font size (no rerender needed; CSS variable)
@@ -180,31 +155,17 @@ function applyFont() {
 function stepFont(d) {
   s.fontSize = Math.max(8, Math.min(26, s.fontSize + d));
   applyFont();
-  save();
 }
 $('fsMinus').addEventListener('click', () => stepFont(-1));
 $('fsPlus').addEventListener('click', () => stepFont(1));
-
-// reset: clear saved settings, reload with defaults
-$('resetBtn').addEventListener('click', () => {
-  try { localStorage.removeItem(LS_KEY); } catch { /* ignore */ }
-  location.reload();
-});
 
 // ---- buttons ----
 $('regen').addEventListener('click', run);
 $('printBtn').addEventListener('click', () => window.print());
 
 // ---- init ----
-// restore panel from loaded state
-$('count').value = s.count;
-$('columns').value = s.columns;
-$('sort').value = s.sort;
 $('allowNeg').checked = s.allowNegative;
-$('answerKey').checked = s.answerKey;
+$('allowCross').checked = s.allowCarry;
 $('date').value = s.date;
-for (const el of opsBox.querySelectorAll('[data-opchk]')) {
-  fieldsets[el.dataset.opchk].classList.toggle('off', !el.checked);
-}
 applyFont();
 run();

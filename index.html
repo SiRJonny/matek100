@@ -16,18 +16,6 @@
     <button id="printBtn">Nyomtatás / PDF</button>
   </div>
 
-  <div class="threeCol">
-    <div class="field"><label for="count">Feladat</label>
-      <input id="count" type="number" min="1" value="100">
-    </div>
-    <div class="field"><label for="columns">Oszlop</label>
-      <input id="columns" type="number" min="1" max="10" value="4">
-    </div>
-    <div class="field"><label for="rows">Sor</label>
-      <input id="rows" type="number" min="1" value="25">
-    </div>
-  </div>
-
   <div id="ops" class="opList"></div>
 
   <div class="field"><label for="sort">Rendezés</label>
@@ -40,6 +28,7 @@
   <div class="field"><label>Számhatárok</label><div id="ranges"></div></div>
 
   <label class="chk"><input id="allowNeg" type="checkbox"> Negatív eredmény engedélyezése</label>
+  <label class="chk"><input id="allowCross" type="checkbox" checked> Tízesátlépés engedélyezése</label>
   <label class="chk"><input id="answerKey" type="checkbox" checked> Megoldás kulcs</label>
 
   <div class="field"><label for="date">Dátum</label>
@@ -54,7 +43,17 @@
     </div>
   </div>
 
-  <button id="resetBtn" class="resetBtn">Visszaállítás alapértékekre</button>
+  <div class="threeCol">
+    <div class="field"><label for="count">Feladat</label>
+      <input id="count" type="number" min="1" value="100">
+    </div>
+    <div class="field"><label for="columns">Oszlop</label>
+      <input id="columns" type="number" min="1" max="10" value="4">
+    </div>
+    <div class="field"><label for="rows">Sor</label>
+      <input id="rows" type="number" min="1" value="25">
+    </div>
+  </div>
 </aside>
 
 <main id="sheetArea">
