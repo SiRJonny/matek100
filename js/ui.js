@@ -83,11 +83,14 @@ function fitFont() {
   else if (s.fontSize < 18) s.fontSize = Math.min(18, cap);
 }
 
-// Title auto-count: any digits block in the title mirrors the current exercise count;
-// titles without digits (rewritten) are untouched
+// Title auto-count: digits equal to the previous exercise count are swapped to the new count.
+// Numbers that don't match (user renames, other digits, no digits) stay untouched.
+let lastTitleCount = null;
+
 function syncTitleCount() {
-  if (!/\d/.test(s.title)) return;
-  const nt = s.title.replace(/\d+/g, String(s.count));
+  if (lastTitleCount === null || lastTitleCount === s.count || !/\d/.test(s.title)) return;
+  const re = new RegExp(`(^|\\D)${lastTitleCount}(\\D|$)`, 'g');
+  const nt = s.title.replace(re, `$1${s.count}$2`);
   if (nt !== s.title) s.title = nt;
 }
 
@@ -95,6 +98,7 @@ function run() {
   s.rows = Math.max(1, Math.ceil(s.count / s.columns));
   $('rows').value = s.rows;
   syncTitleCount();
+  lastTitleCount = s.count;
   fitFont();
   applyFont();
   lastGen = generate(s);
@@ -187,12 +191,11 @@ sheet.addEventListener('focusout', e => {
   const t = e.target.closest?.('.pgTitle');
   if (!t || t.closest('.page')?.dataset.key) return;
   const val = t.textContent.replace(/\s+/g, ' ').trim();
-  const final = /\d/.test(val) ? val.replace(/\d+/g, String(s.count)) : val;
-  if (final === s.title) return;
-  s.title = final;
-  t.textContent = final; // normalize in place
+  if (val === s.title) return;
+  s.title = val;
+  t.textContent = val; // normalize in place
   const keyTitle = sheet.querySelector('.page[data-key] .pgTitle');
-  if (keyTitle) keyTitle.textContent = final; // answer key title stays in sync, no regeneration
+  if (keyTitle) keyTitle.textContent = val; // answer key title stays in sync, no regeneration
 });
 
 // font size (no rerender needed; CSS variable)
