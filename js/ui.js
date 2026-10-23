@@ -92,6 +92,8 @@ $('count').addEventListener('input', e => {
 });
 $('columns').addEventListener('input', e => {
   s.columns = Math.max(1, Math.min(10, Math.round(+e.target.value || 1)));
+  s.count = s.columns * Math.max(1, Math.round(+$('rows').value || 1));
+  $('count').value = s.count;
   run();
 });
 $('rows').addEventListener('input', e => {
