@@ -43,9 +43,9 @@ for (const o of OP_DEFS) {
       Object.keys(t).map(n =>
         `<label class="tbl"><input type="checkbox" data-tbl="${o.id}" data-n="${n}"${t[n] ? ' checked' : ''}>${n}</label>`
       ).join('') + '</div>';
-    fs.title = o.label.startsWith('·')
-      ? 'x: egyik tényező kijelölt szorzótábla száma, a másik tényező 2–10'
-      : ': az osztó kijelölt szorzótábla száma, az osztandó = osztó × (2–10), így az eredmény mindig egész';
+    fs.title = o.id === 'mult'
+      ? 'Egyik tényező kijelölt szorzótábla száma, a másik tényező mindig 2–10'
+      : 'Az osztó mindig a kijelölt szorzótábla számai közül való, az osztandó = osztó × (2–10), így az eredmény mindig egész';
   } else {
     const rg = s.ranges[o.id];
     fs.innerHTML =
