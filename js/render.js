@@ -38,8 +38,10 @@ function gridHTML(gen, sort, state, key) {
 
 function pageHTML(gen, state, key) {
   const avail = PAGE_H - 2 * PAGE_PAD - HEAD_H;
-  // font-size independent: CSS takes max(--rowBase, font height) at runtime
+  // font-size independent: CSS takes max(--rowBase, font height) at runtime,
+  // capped by --rowFit so rows*height never exceeds the A4 body height
   const rowBase = Math.min(56, Math.floor(avail / gen.rows));
+  const rowFit = Math.floor(avail / gen.rows);
   const head =
     `<header class="pgHead pgHeadRow">
       <h2 class="pgTitle"${key ? '' : ' contenteditable spellcheck="false" title="Kattintás: cím szerkesztése"'}>${escapeHTML(state.title)}</h2>
@@ -49,7 +51,7 @@ function pageHTML(gen, state, key) {
         ${key ? '<span class="keyTag">Megoldások</span>' : ''}
       </div>
     </header>`;
-  return `${head}<div class="wsGrid" style="grid-template-columns:repeat(${gen.columns},1fr);--rowBase:${rowBase}">` +
+  return `${head}<div class="wsGrid" style="grid-template-columns:repeat(${gen.columns},1fr);--rowBase:${rowBase};--rowFit:${rowFit}px">` +
     gridHTML(gen, state.sort, state, key) + '</div>';
 }
 

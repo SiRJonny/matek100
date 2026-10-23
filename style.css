@@ -211,7 +211,7 @@ fieldset.opFs.off { opacity: .4; }
 .wsGrid {
   flex: 1;
   display: grid;
-  grid-auto-rows: min(56px, max(calc(var(--rowBase, 40) * 1px), calc(var(--fs, 17px) + 8px)));
+  grid-auto-rows: min(56px, max(calc(var(--rowBase, 40) * 1px), calc(var(--fs, 18px) + 8px)), var(--rowFit, 40px));
 }
 
 .cell {
