@@ -77,12 +77,11 @@ function tryOne(op, B, T, allowCarry) {
     const b = randInt(2, 10);
     return { op, a, b, r: a * b };
   }
-  // div: dividend = k * m from selected tables (<= 100), divisor = one factor, both <= 10
+  // div: divisor k is a selected table number; dividend = k * (2..10), quotient = that factor
   if (op === 'div') {
     const k = T[Math.floor(Math.random() * T.length)];
-    const m = randInt(2, 10);
-    const b = Math.random() < 0.5 ? k : m;
-    return { op, a: k * m, b, r: k * m / b };
+    const r = randInt(2, 10);
+    return { op, a: k * r, b: k, r };
   }
 }
 
@@ -93,13 +92,7 @@ function tablePool(op, T) {
     for (const k of T) for (let b = 2; b <= 10; b++) order.push({ op, a: k, b, r: k * b });
   } else {
     for (const k of T) for (let m = 2; m <= 10; m++) {
-      const a = k * m;
-      if (k !== m) {
-        order.push({ op, a, b: k, r: m });
-        order.push({ op, a, b: m, r: k });
-      } else {
-        order.push({ op, a, b: k, r: m });
-      }
+      order.push({ op, a: k * m, b: k, r: m });  // divisor = table number, dividend <= divisor*10
     }
   }
   return order;
@@ -167,8 +160,7 @@ function fallback(op, B, T) {
     const k = T[Math.floor(Math.random() * T.length)];
     if (op === 'div') {
       const m = randInt(2, 10);
-      const b = Math.random() < 0.5 ? k : m;
-      return { op, a: k * m, b, r: k * m / b };
+      return { op, a: k * m, b: k, r: m };
     }
     const b = randInt(2, 10);
     return { op, a: k, b, r: k * b };

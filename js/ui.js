@@ -38,12 +38,12 @@ for (const o of OP_DEFS) {
     // mult/div: row of table checkboxes 2..10
     const t = s.tables[o.id];
     fs.innerHTML =
-      `<legend><span>${o.label} sz.">*</span></legend>
+      `<legend><span>${o.label}</span></legend>
        <div class="tblRow">` +
       Object.keys(t).map(n =>
         `<label class="tbl"><input type="checkbox" data-tbl="${o.id}" data-n="${n}"${t[n] ? ' checked' : ''}>${n}</label>`
       ).join('') + '</div>';
-    fs.title = 'Sz. = szorzótábla — x: egyik tényező a kijelölt szorzótábla számain közül (max. 10); : : az osztandó a kijelölt szorzótáblák szorzataiból (max. 100)';
+    fs.title = 'Sz. = szorzótábla — x: egyik tényező kijelölt szorzótábla száma, a másik 2–10; : : az osztó kijelölt szorzótábla száma, az osztandó = osztó × (2–10), egész eredmény';
   } else {
     const rg = s.ranges[o.id];
     fs.innerHTML =
