@@ -4,6 +4,22 @@ import { renderSheet } from './render.js';
 
 const s = defaultState();
 
+// measure real font metrics once (ratios of a 100px sample; font-invariant)
+function computeMetrics() {
+  const fallback = { dig: 0.556, sign: 0.5, eq: 0.35 };
+  try {
+    const ctx = document.createElement('canvas').getContext('2d');
+    ctx.font = '700 100px "Segoe UI", system-ui, sans-serif';
+    const m = t => ctx.measureText(t).width / 100;
+    return {
+      dig: Math.max(...'0123456789'.split('').map(m)),
+      sign: Math.max(...['+', '−', '·', ':'].map(m)),
+      eq: m('='),
+    };
+  } catch { return fallback; }
+}
+s.metrics = computeMetrics();
+
 const $ = id => document.getElementById(id);
 const panel = $('panel');
 const sheet = $('sheet');
