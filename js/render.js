@@ -38,25 +38,23 @@ function gridHTML(gen, sort, state, key) {
 }
 
 // Slot widths from setting worst cases + measured font metrics (em units -> font scales them)
-function slotVars(state) {
+function slotDims(state) {
   const M = state.metrics || { dig: 0.556, sign: 0.5, eq: 0.35 };
   const digitsOf = n => String(Math.abs(Math.round(n))).length;
   const enabled = OP_DEFS.filter(o => state.ops[o.id]).map(o => o.id);
-  let dA = 0, dB = 0, dR = 0, signedResult = false;
+  let dA = 0, dR = 0, signedResult = false;
   for (const op of enabled) {
     if (op === 'mult' || op === 'div') {
       const T = Object.keys(state.tables[op]).filter(k => state.tables[op][k]).map(Number);
       if (!T.length) continue;
       const maxT = Math.max(...T);
       dA = Math.max(dA, op === 'mult' ? digitsOf(maxT) : digitsOf(10 * maxT));
-      dB = Math.max(dB, 2);                       // second operand / divisor: 2..10
       dR = Math.max(dR, op === 'mult' ? digitsOf(maxT * 10) : 2);
     } else {
       const rg = state.ranges[op];
       if (!rg) continue;
       const omax = Math.max(Math.abs(rg.opMin), Math.abs(rg.opMax));
       dA = Math.max(dA, digitsOf(omax));
-      dB = Math.max(dB, digitsOf(omax));
       dR = Math.max(dR, digitsOf(rg.resMax));
       if (op === 'minus') {
         const omin = Math.min(Math.abs(rg.opMin), Math.abs(rg.opMax));
@@ -65,6 +63,12 @@ function slotVars(state) {
       }
     }
   }
+  return { M, dA, dR, signedResult };
+}
+
+export { slotDims };
+function slotVars(state) {
+  const { M, dA, dR, signedResult } = slotDims(state);
   return `--slotA:${(dA * M.dig).toFixed(3)}em;` +
     `--slotS:${(M.sign).toFixed(3)}em;` +       // +4px gaps set in CSS calc
     `--slotE:${(M.eq).toFixed(3)}em;` +         // +4px padding in CSS calc

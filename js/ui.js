@@ -1,6 +1,6 @@
 // UI wiring: panel <-> state, regenerate, render, print scaling
 import { OP_DEFS, defaultState, generate, genOne } from './generator.js';
-import { renderSheet } from './render.js';
+import { renderSheet, slotDims } from './render.js';
 
 const s = defaultState();
 
@@ -65,12 +65,22 @@ opsBox.innerHTML = OP_DEFS.map(o =>
 // ---- regenerate + render ----
 let lastGen = null;
 
-// Auto font fit: shrink when row space is too small; grow back toward 18 when it fits again
+// Auto font fit: shrink when row space (vertical) or column width (horizontal) is too small;
+// grow back toward 18 when both fit again
 function fitFont() {
-  const avail = 1123 - 2 * 57 - 64 - 14; // must match render.js page constants
-  const rowFit = Math.floor(avail / Math.max(1, Math.ceil(s.count / s.columns)));
-  if (s.fontSize + 8 > rowFit) s.fontSize = Math.max(8, rowFit - 8);
-  else if (s.fontSize < 18) s.fontSize = Math.min(18, rowFit - 8);
+  const VERT = 1123 - 2 * 57 - 64 - 14;  // A4 body height, mirrors render.js
+  const CELL = Math.floor(680 / s.columns); // page content width per column
+  const rows = Math.max(1, Math.ceil(s.count / s.columns));
+
+  const vMaxFs = Math.max(8, Math.floor(VERT / rows) - 8);
+  // horizontal: [oA][os][oB][eq][result] + cell padding; oA == oB slot width
+  const { M, dA, dR, signedResult } = slotDims(s);
+  const emPerFont = 2 * dA * M.dig + M.sign + M.eq + (dR + (signedResult ? 1 : 0) + 2) * M.dig;
+  const hMaxFs = Math.max(8, Math.floor((CELL - 8 - 8) / emPerFont));
+
+  const cap = Math.min(vMaxFs, hMaxFs);
+  if (s.fontSize > cap) s.fontSize = Math.max(8, cap);
+  else if (s.fontSize < 18) s.fontSize = Math.min(18, cap);
 }
 
 function run() {
