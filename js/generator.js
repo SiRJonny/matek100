@@ -72,10 +72,11 @@ function tryOne(op, B, T, allowCarry) {
   }
   // mult/div: classic table practice — one operand is a selected table number, the other 2..10.
   // mult: a is the table number. div: b is the table number (divisor), a = b * q <= 10.
+  // mult: table factor k × 2..10, operand order randomized (commutative, same key)
   if (op === 'mult') {
-    const a = T[Math.floor(Math.random() * T.length)];
-    const b = randInt(2, 10);
-    return { op, a, b, r: a * b };
+    const k = T[Math.floor(Math.random() * T.length)];
+    const m = randInt(2, 10);
+    return Math.random() < 0.5 ? { op, a: k, b: m, r: k * m } : { op, a: m, b: k, r: k * m };
   }
   // div: divisor k is a selected table number; dividend = k * (2..10), quotient = that factor
   if (op === 'div') {
@@ -89,7 +90,10 @@ function tryOne(op, B, T, allowCarry) {
 function tablePool(op, T) {
   const order = [];
   if (op === 'mult') {
-    for (const k of T) for (let b = 2; b <= 10; b++) order.push({ op, a: k, b, r: k * b });
+    for (const k of T) for (let m = 2; m <= 10; m++) {
+      const flip = Math.random() < 0.5; // operand order random, same commutative key
+      order.push(flip ? { op, a: m, b: k, r: k * m } : { op, a: k, b: m, r: k * m });
+    }
   } else {
     for (const k of T) for (let m = 2; m <= 10; m++) {
       order.push({ op, a: k * m, b: k, r: m });  // divisor = table number, dividend <= divisor*10
@@ -162,8 +166,8 @@ function fallback(op, B, T) {
       const m = randInt(2, 10);
       return { op, a: k * m, b: k, r: m };
     }
-    const b = randInt(2, 10);
-    return { op, a: k, b, r: k * b };
+    const m = randInt(2, 10);
+    return Math.random() < 0.5 ? { op, a: k, b: m, r: k * m } : { op, a: m, b: k, r: k * m };
   }
   const { omin, omax, rmin, rmax } = B;
   const r = randInt(rmin, rmax);
