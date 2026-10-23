@@ -233,9 +233,9 @@ fieldset.opFs.off { opacity: .4; }
 .expr.live { cursor: pointer; }
 .expr.live:hover { background: #eef2ff; }
 
-.lhs { flex: 1; display: flex; align-items: baseline; justify-content: center; min-width: 0; }
-/* fixed-width operand slots (em scales with font size), centered pair:
-   sign/equals keep a constant x per column, operands centered */
+.lhs { flex: 1; display: flex; align-items: baseline; justify-content: flex-end; min-width: 0; }
+/* fixed-width operand slots (em scales with font size), right-anchored pair:
+   the os -> oB -> = chain keeps constant spacing at any font size */
 .lhs .oA, .lhs .oB {
   flex: 0 0 var(--slotA, 1.9em);
   text-align: center;
