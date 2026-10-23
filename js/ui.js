@@ -65,9 +65,19 @@ opsBox.innerHTML = OP_DEFS.map(o =>
 // ---- regenerate + render ----
 let lastGen = null;
 
+// Auto font fit: shrink when row space is too small; grow back toward 18 when it fits again
+function fitFont() {
+  const avail = 1123 - 2 * 57 - 64 - 14; // must match render.js page constants
+  const rowFit = Math.floor(avail / Math.max(1, Math.ceil(s.count / s.columns)));
+  if (s.fontSize + 8 > rowFit) s.fontSize = Math.max(8, rowFit - 8);
+  else if (s.fontSize < 18) s.fontSize = Math.min(18, rowFit - 8);
+}
+
 function run() {
   s.rows = Math.max(1, Math.ceil(s.count / s.columns));
   $('rows').value = s.rows;
+  fitFont();
+  applyFont();
   lastGen = generate(s);
   renderSheet(sheet, s, lastGen);
   fit();

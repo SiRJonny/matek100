@@ -5,6 +5,7 @@ const PAGE_W = 794;   // A4 @96dpi
 const PAGE_H = 1123;
 const PAGE_PAD = 57;  // ~15mm
 const HEAD_H = 64;
+const HEAD_GAP = 14; // empty line after the title row
 
 const sym = id => OP_DEFS.find(o => o.id === id).symbol;
 
@@ -71,7 +72,7 @@ function slotVars(state) {
 }
 
 function pageHTML(gen, state, key) {
-  const avail = PAGE_H - 2 * PAGE_PAD - HEAD_H;
+  const avail = PAGE_H - 2 * PAGE_PAD - HEAD_H - HEAD_GAP;
   // font-size independent: CSS takes max(--rowBase, font height) at runtime,
   // capped by --rowFit so rows*height never exceeds the A4 body height
   const rowBase = Math.min(56, Math.floor(avail / gen.rows));
