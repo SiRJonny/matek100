@@ -176,7 +176,6 @@ for (const el of rangesBox.querySelectorAll('input[data-tbl]')) {
 
 $('allowNeg').addEventListener('change', e => { s.allowNegative = e.target.checked; run(); });
 $('allowCross').addEventListener('change', e => { s.allowCarry = e.target.checked; run(); });
-$('answerKey').addEventListener('change', e => { s.answerKey = e.target.checked; run(); });
 
 // display-only inputs
 $('date').addEventListener('change', e => { s.date = e.target.value; run(); });
